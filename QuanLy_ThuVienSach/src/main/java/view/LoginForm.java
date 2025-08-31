@@ -4,11 +4,11 @@
  */
 package view;
 
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import placeholder.PlaceholderPasswordField;
-import placeholder.PlaceholderTextField;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import tienich.PlaceholderSupport;
+import tienich.CreateHyperLink;
 
 /**
  *
@@ -23,8 +23,10 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
+        setLocationRelativeTo(null);
         placeTKMK();
-        taoHyperlink(lblQuenMatKhau, "Quên mật khẩu?");
+        taoHyperLink();
+        khoangCach();
 
     }
 
@@ -44,17 +46,23 @@ public class LoginForm extends javax.swing.JFrame {
         txtTaiKhoan = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JPasswordField();
         lblQuenMatKhau = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblDangKy = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("QUẢN LÝ THƯ VIỆN SÁCH");
+        jLabel3.setText("ĐĂNG NHẬP");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         btnDangNhap.setText("Đăng nhập");
+        btnDangNhap.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDangNhapMouseClicked(evt);
+            }
+        });
 
         chkHienMatKhau.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         chkHienMatKhau.setText("Hiện mật khẩu");
@@ -69,8 +77,13 @@ public class LoginForm extends javax.swing.JFrame {
         lblQuenMatKhau.setText("Quên mật khẩu");
         lblQuenMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("chưa có tài khoản? Đăng ký");
+        lblDangKy.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblDangKy.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDangKy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDangKyMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,17 +98,16 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(txtTaiKhoan)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(chkHienMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                                 .addComponent(lblQuenMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 56, Short.MAX_VALUE)))
+                        .addGap(98, 98, 98)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDangKy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(128, 128, 128)
-                .addComponent(btnDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,14 +117,14 @@ public class LoginForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblQuenMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkHienMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDangKy, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -121,10 +133,10 @@ public class LoginForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(22, 22, 22)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -132,9 +144,9 @@ public class LoginForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -144,6 +156,22 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         hienMatKhau();
     }//GEN-LAST:event_chkHienMatKhauActionPerformed
+
+    private void lblDangKyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDangKyMouseClicked
+        // TODO add your handling code here:
+        Registed regForm = new Registed(); // Tạo form đăng ký
+        regForm.setVisible(true);          // Hiển thị form đăng ký
+        regForm.setLocationRelativeTo(null); // Căn giữa màn hình
+        this.dispose();
+    }//GEN-LAST:event_lblDangKyMouseClicked
+
+    private void btnDangNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangNhapMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        HomeForm homeForm = new HomeForm();
+        homeForm.setLocationRelativeTo(null);
+        homeForm.setVisible(true);
+    }//GEN-LAST:event_btnDangNhapMouseClicked
 
     /**
      * @param args the command line arguments
@@ -173,9 +201,9 @@ public class LoginForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
     private javax.swing.JCheckBox chkHienMatKhau;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDangKy;
     private javax.swing.JLabel lblQuenMatKhau;
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTaiKhoan;
@@ -190,53 +218,20 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     private void placeTKMK() {
-        // Tạo custom field
-        PlaceholderTextField tfTaiKhoan = new PlaceholderTextField("Nhập tên đăng nhập");
-        PlaceholderPasswordField pfMatKhau = new PlaceholderPasswordField("Nhập mật khẩu");
+        PlaceholderSupport.addPlaceholder(txtTaiKhoan, "Nhập tên đăng nhập");
+        PlaceholderSupport.addPlaceholder(txtMatKhau, "Nhập mật khẩu");
 
-        // Giữ layout cũ: copy bounds từ component cũ
-        tfTaiKhoan.setBounds(txtTaiKhoan.getBounds());
-        pfMatKhau.setBounds(txtMatKhau.getBounds());
-
-        // Xóa component cũ và add component mới
-        jPanel1.remove(txtTaiKhoan);
-        jPanel1.remove(txtMatKhau);
-        jPanel1.add(tfTaiKhoan);
-        jPanel1.add(pfMatKhau);
-
-        // Cập nhật layout
-        jPanel1.revalidate();
-        jPanel1.repaint();
-
-        // Gán lại để dùng trong code
-        txtTaiKhoan = tfTaiKhoan;
-        txtMatKhau = pfMatKhau;
     }
 
-    private void taoHyperlink(JLabel label, String text) {
-        // Gạch dưới bằng HTML
-        label.setText("<html><u>" + text + "</u></html>");
+    private void khoangCach() {
 
-        // Đổi con trỏ thành hình bàn tay khi hover
-        label.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblDangKy.setText("<html>Chưa có tài khoản? <a href='#'>Đăng ký</a></html>");
+        lblDangKy.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Xử lý hover + click
-        label.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                label.setForeground(Color.BLUE); // đổi màu khi hover
-            }
+    }
 
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                label.setForeground(Color.BLACK); // về màu gốc
-            }
-
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "Chúc may mắn!");
-            }
-        });
+    private void taoHyperLink() {
+        CreateHyperLink.createHyperlink(lblQuenMatKhau, "Quên mật khẩu");
     }
 
 }
