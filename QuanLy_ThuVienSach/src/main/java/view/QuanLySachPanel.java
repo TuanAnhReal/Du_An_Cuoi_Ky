@@ -6,9 +6,14 @@ package view;
 
 import java.awt.Image;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import model.Sach;
+import model.SachDAO;
 
 /**
  *
@@ -16,11 +21,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class QuanLySachPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form QuanLySachPanel
-     */
+    private DefaultTableModel model;
+    private String selectedFilePath;
+    private SachDAO sachDAO = new SachDAO();
+    private List<SachDAO> list = new ArrayList<>();
+
     public QuanLySachPanel() {
         initComponents();
+        String[] tieudecot = {"Tên sách", "Tên tác giả", "Năm xuất bản", "Thể loại", "Số lượng"};
+        model = new DefaultTableModel(tieudecot, 0);
+        tblSach.setModel(model);
+        loadData();
     }
 
     /**
@@ -33,7 +44,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         lblAnhBia = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnChonAnh = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         pnThongTin = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -62,10 +73,10 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         lblAnhBia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAnhBia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jButton1.setText("chọn ảnh");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnChonAnh.setText("chọn ảnh");
+        btnChonAnh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnChonAnhActionPerformed(evt);
             }
         });
 
@@ -217,7 +228,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAnhBia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnChonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(16, 16, 16))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -235,7 +246,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblAnhBia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnChonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,44 +255,40 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Chọn ảnh");
-
-        // Chỉ cho chọn file ảnh (jpg, png, jpeg)
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Hình ảnh", "jpg", "png", "jpeg", "gif");
-        fileChooser.setFileFilter(filter);
-
-        int result = fileChooser.showOpenDialog(this); // hoặc null nếu không nằm trong JFrame
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            // Đọc và hiển thị ảnh
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
-
-            // Resize ảnh vừa với JLabel
-            Image image = icon.getImage().getScaledInstance(
-                lblAnhBia.getWidth(), lblAnhBia.getHeight(), Image.SCALE_SMOOTH);
-
-            lblAnhBia.setIcon(new ImageIcon(image));
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void txtNamXBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamXBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNamXBActionPerformed
 
+    private void btnChonAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonAnhActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Hình ảnh", "jpg", "png", "jpeg", "gif");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            selectedFilePath = selectedFile.getAbsolutePath();
+
+            // Hiển thị ảnh lên JLabel
+            ImageIcon icon = new ImageIcon(selectedFilePath);
+            Image image = icon.getImage().getScaledInstance(
+                    lblAnhBia.getWidth(), lblAnhBia.getHeight(), Image.SCALE_SMOOTH);
+            lblAnhBia.setIcon(new ImageIcon(image));
+        }
+    }//GEN-LAST:event_btnChonAnhActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonAnh;
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -299,4 +306,19 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtTenSach;
     private javax.swing.JTextField txtTheLoai;
     // End of variables declaration//GEN-END:variables
+
+    private void loadData() {
+        model.setRowCount(0);
+        List<Sach> list = sachDAO.getAll();
+        for (Sach s : list) {
+            model.addRow(new Object[]{
+                s.getTenSach(),
+                s.getTenTacGia(),
+                s.getNamxuatban(),
+                s.getTheLoai(),
+                s.getSoLuong()
+            });
+        }
+        lblAnhBia.setIcon(null); // Xóa ảnh khi load danh sách mới
+    }
 }

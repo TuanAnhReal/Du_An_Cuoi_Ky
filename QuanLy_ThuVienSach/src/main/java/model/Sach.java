@@ -14,67 +14,59 @@ public class Sach {
 
     private int maSach;
     private String tenSach;
-    private String tacGia;
-    private Date namXB;
+    private int maTacGia;
+    private String tenTacGia;
+    private int namxuatban;
     private String theLoai;
     private String soLuong;
     private byte[] anhBia;
-    private int maTacGia;
 
-    public Sach(String tenSach, String tacGia, Date namXB, String theLoai, String soLuong, int maTacGia) {
-        this.tenSach = tenSach;
-        this.tacGia = tacGia;
-        this.namXB = namXB;
-        this.theLoai = theLoai;
-        this.soLuong = soLuong;
-        this.maTacGia = maTacGia;
-    }
-
-    public Sach(int maSach, String tenSach, String tacGia, Date namXB, String theLoai, String soLuong, byte[] anhBia, int maTacGia) {
+    public Sach(int maSach, String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong) {
         this.maSach = maSach;
         this.tenSach = tenSach;
-        this.tacGia = tacGia;
-        this.namXB = namXB;
+        this.maTacGia = maTacGia;
+        this.tenTacGia = tenTacGia;
+        this.namxuatban = namxuatban;
         this.theLoai = theLoai;
         this.soLuong = soLuong;
-        this.anhBia = anhBia;
-        this.maTacGia = maTacGia;
     }
 
-    public Sach(String tenSach, String tacGia, Date namXB, String theLoai, String soLuong, byte[] anhBia, int maTacGia) {
-        this.tenSach = tenSach;
-        this.tacGia = tacGia;
-        this.namXB = namXB;
-        this.theLoai = theLoai;
-        this.soLuong = soLuong;
-        this.anhBia = anhBia;
-        this.maTacGia = maTacGia;
-    }
-
-    public Sach(int maSach, String tenSach, String tacGia, Date namXB, String theLoai, String soLuong) {
+    public Sach(int maSach, String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong, byte[] anhBia) {
         this.maSach = maSach;
         this.tenSach = tenSach;
-        this.tacGia = tacGia;
-        this.namXB = namXB;
-        this.theLoai = theLoai;
-        this.soLuong = soLuong;
-    }
-
-    public Sach(String tenSach, String tacGia, Date namXB, String theLoai, String soLuong, byte[] anhBia) {
-        this.tenSach = tenSach;
-        this.tacGia = tacGia;
-        this.namXB = namXB;
+        this.maTacGia = maTacGia;
+        this.tenTacGia = tenTacGia;
+        this.namxuatban = namxuatban;
         this.theLoai = theLoai;
         this.soLuong = soLuong;
         this.anhBia = anhBia;
     }
 
-    public Sach(String tenSach, String tacGia, Date namXB, String theLoai, String soLuong) {
+    public Sach(String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong, byte[] anhBia) {
         this.tenSach = tenSach;
-        this.tacGia = tacGia;
-        this.namXB = namXB;
+        this.maTacGia = maTacGia;
+        this.tenTacGia = tenTacGia;
+        this.namxuatban = namxuatban;
         this.theLoai = theLoai;
         this.soLuong = soLuong;
+        this.anhBia = anhBia;
+    }
+
+    public Sach(String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong) {
+        this.tenSach = tenSach;
+        this.maTacGia = maTacGia;
+        this.tenTacGia = tenTacGia;
+        this.namxuatban = namxuatban;
+        this.theLoai = theLoai;
+        this.soLuong = soLuong;
+    }
+
+    public int getMaSach() {
+        return maSach;
+    }
+
+    public void setMaSach(int maSach) {
+        this.maSach = maSach;
     }
 
     public String getTenSach() {
@@ -85,20 +77,28 @@ public class Sach {
         this.tenSach = tenSach;
     }
 
-    public String getTacGia() {
-        return tacGia;
+    public int getMaTacGia() {
+        return maTacGia;
     }
 
-    public void setTacGia(String tacGia) {
-        this.tacGia = tacGia;
+    public void setMaTacGia(int maTacGia) {
+        this.maTacGia = maTacGia;
     }
 
-    public Date getNamXB() {
-        return namXB;
+    public String getTenTacGia() {
+        return tenTacGia;
     }
 
-    public void setNamXB(Date namXB) {
-        this.namXB = namXB;
+    public void setTenTacGia(String tenTacGia) {
+        this.tenTacGia = tenTacGia;
+    }
+
+    public int getNamxuatban() {
+        return namxuatban;
+    }
+
+    public void setNamxuatban(int namxuatban) {
+        this.namxuatban = namxuatban;
     }
 
     public String getTheLoai() {
@@ -117,14 +117,6 @@ public class Sach {
         this.soLuong = soLuong;
     }
 
-    public int getMaSach() {
-        return maSach;
-    }
-
-    public void setMaSach(int maSach) {
-        this.maSach = maSach;
-    }
-
     public byte[] getAnhBia() {
         return anhBia;
     }
@@ -133,17 +125,5 @@ public class Sach {
         this.anhBia = anhBia;
     }
 
-    public int getMaTacGia() {
-        return maTacGia;
-    }
-
-    public void setMaTacGia(int maTacGia) {
-        this.maTacGia = maTacGia;
-    }
-
-    @Override
-    public String toString() {
-        return "Sach{" + "tenSach=" + tenSach + ", tacGia=" + tacGia + ", namXB=" + namXB + ", theLoai=" + theLoai + ", soLuong=" + soLuong + '}';
-    }
     
 }
