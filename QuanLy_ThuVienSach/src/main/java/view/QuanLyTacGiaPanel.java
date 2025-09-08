@@ -4,17 +4,41 @@
  */
 package view;
 
+import java.awt.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import model.DocGia;
+import model.DocGiaDAO;
+import model.TacGia;
+import model.TacGiaDAO;
+
 /**
  *
  * @author PC
  */
 public class QuanLyTacGiaPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form QuanLyTacGiaPanel
-     */
+    private DefaultTableModel model;
+    private TacGiaDAO tacGiaDAO = new TacGiaDAO();
+    private String selectedFilePath;
+    private List<TacGia> listTacGia = new ArrayList<>();
+
     public QuanLyTacGiaPanel() {
         initComponents();
+        String[] tieudecot = {"Mã", "Họ tên", "Ngày sinh"};
+        model = new DefaultTableModel(tieudecot, 0);
+        tblTacGia.setModel(model);
+        loadData();
     }
 
     /**
@@ -26,19 +50,420 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        txtHoTen = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtNgaySinh = new com.toedter.calendar.JDateChooser();
+        lblAnhChanDung = new javax.swing.JLabel();
+        btnChonAnh = new javax.swing.JButton();
+        pnButton = new javax.swing.JPanel();
+        btnXoa = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnLamMoi = new javax.swing.JButton();
+        btnTimKiem = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblTacGia = new javax.swing.JTable();
+
+        setPreferredSize(new java.awt.Dimension(700, 500));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 204, 204));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("QUẢN LÝ TÁC GIẢ");
+
+        jLabel2.setText("Họ tên");
+
+        jLabel3.setText("Ngày sinh");
+
+        lblAnhChanDung.setBackground(new java.awt.Color(51, 0, 255));
+        lblAnhChanDung.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblAnhChanDung.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAnhChanDung.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btnChonAnh.setText("chọn ảnh");
+        btnChonAnh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonAnhActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                        .addGap(258, 258, 258))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(199, 199, 199))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAnhChanDung, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(btnChonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(45, 45, 45))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblAnhChanDung, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnChonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnXoa.setText("Xoá");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
+        btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
+
+        btnThem.setText("Thêm ");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+
+        btnLamMoi.setText("Làm mới");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
+
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnButtonLayout = new javax.swing.GroupLayout(pnButton);
+        pnButton.setLayout(pnButtonLayout);
+        pnButtonLayout.setHorizontalGroup(
+            pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnButtonLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnButtonLayout.setVerticalGroup(
+            pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblTacGia.setBackground(new java.awt.Color(204, 204, 204));
+        tblTacGia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tblTacGia.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Họ tên", "Ngày sinh"
+            }
+        ));
+        tblTacGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTacGiaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblTacGia);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(pnButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnChonAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonAnhActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn ảnh");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Hình ảnh", "jpg", "png", "jpeg", "gif");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            selectedFilePath = selectedFile.getAbsolutePath();
+
+            // Hiển thị ảnh lên JLabel
+            ImageIcon icon = new ImageIcon(selectedFilePath);
+            Image image = icon.getImage().getScaledInstance(
+                    lblAnhChanDung.getWidth(), lblAnhChanDung.getHeight(), Image.SCALE_SMOOTH);
+            lblAnhChanDung.setIcon(new ImageIcon(image));
+        }
+    }//GEN-LAST:event_btnChonAnhActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        xoaTacGia();
+        loadData();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+                suaTacGia();
+                loadData();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        themTacGia();
+        loadData();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        // TODO add your handling code here:
+        lamMoi();
+        loadData();
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+                timKiem();
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void tblTacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGiaMouseClicked
+        // TODO add your handling code here:
+        int row = tblTacGia.getSelectedRow();
+        if (row != -1) {
+            // Lấy dữ liệu text từ JTable
+            int matacgia = Integer.parseInt(tblTacGia.getValueAt(row, 0).toString());
+            TacGia tg = tacGiaDAO.getTacGiaById(matacgia);
+            txtHoTen.setText(tg.getTenTacGia());
+            txtNgaySinh.setDate(tg.getNgaySinh());
+
+            if (tg.getAnhChanDung() != null) {
+                ImageIcon imageIcon = new ImageIcon(tg.getAnhChanDung());
+
+                int labelWidth = lblAnhChanDung.getWidth();
+                int labelHeight = lblAnhChanDung.getHeight();
+
+                ImageIcon resizeIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(labelWidth, labelHeight, java.awt.Image.SCALE_SMOOTH));
+
+                //gán ảnh đã thay đổi kicks thước cho JLabel
+                lblAnhChanDung.setIcon(resizeIcon);
+            } else {
+                lblAnhChanDung.setIcon(null);
+            }
+        }
+    }//GEN-LAST:event_tblTacGiaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonAnh;
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTimKiem;
+    private javax.swing.JButton btnXoa;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAnhChanDung;
+    private javax.swing.JPanel pnButton;
+    private javax.swing.JTable tblTacGia;
+    private javax.swing.JTextField txtHoTen;
+    private com.toedter.calendar.JDateChooser txtNgaySinh;
     // End of variables declaration//GEN-END:variables
+
+    private void loadData() {
+        model.setRowCount(0);
+        List<TacGia> list = TacGiaDAO.getAll();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for (TacGia tg : list) {
+            model.addRow(new Object[]{
+                tg.getMaTacGia(),
+                tg.getTenTacGia(),
+                sdf.format(tg.getNgaySinh()),});
+        }
+        lblAnhChanDung.setIcon(null);
+    }
+
+    private void themTacGia() {
+        try {
+            String tenTacGia = txtHoTen.getText();
+            Date ngaySinh = new Date(txtNgaySinh.getDate().getTime());
+            byte[] anhChanDung = null;
+            if (selectedFilePath != null) {
+                try (FileInputStream fis = new FileInputStream(selectedFilePath)) {
+                    anhChanDung = fis.readAllBytes();
+                }
+            }
+            TacGia tg = new TacGia(tenTacGia, ngaySinh, anhChanDung);
+
+            System.out.println("File path: " + selectedFilePath);
+            System.out.println("Ảnh null? " + (anhChanDung == null));
+            System.out.println("Kích thước ảnh: " + (anhChanDung != null ? anhChanDung.length : 0));
+
+            if (tacGiaDAO.insertTacGia(tg)) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                loadData();
+                lamMoi();
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+            e.printStackTrace();
+        }
+    }
+
+    private void lamMoi() {
+        txtHoTen.setText("");
+        txtNgaySinh.setDate(txtNgaySinh.getDate());
+
+    }
+
+    private void suaTacGia() {
+        int row = tblTacGia.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn tác giả cần sửa");
+            return;
+        }
+        try {
+            int maTacGia = (int) model.getValueAt(row, 0);
+            String tenTacGia = txtHoTen.getText();
+            Date ngaySinh = new Date(txtNgaySinh.getDate().getTime());
+            byte[] anhChanDung = null;
+            if (selectedFilePath != null && !selectedFilePath.isEmpty()) {
+                File file = new File(selectedFilePath);
+                FileInputStream fis = new FileInputStream(file);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int read;
+                while ((read = fis.read(buffer)) != -1) {
+                    baos.write(buffer, 0, read);
+                }
+                fis.close();
+                anhChanDung = baos.toByteArray();
+            }
+            TacGia tg = new TacGia(maTacGia, tenTacGia, ngaySinh, anhChanDung);
+            if (tacGiaDAO.updateTacGia(tg)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                loadData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+        }
+    }
+
+    private void xoaTacGia() {
+        int row = tblTacGia.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn tác giả cần xóa");
+            return;
+        }
+
+        try {
+            int maTacGia = (int) model.getValueAt(row, 0);
+            int traloi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa tác giả id =" + maTacGia);
+            if (traloi != JOptionPane.YES_OPTION) {
+                return;
+            }
+            if (tacGiaDAO.deleteTacGia(maTacGia)) {
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                loadData();
+                lamMoi();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+        }
+    }
+
+    private void timKiem() {
+        String keyword = txtHoTen.getText();
+        List<TacGia> list = tacGiaDAO.searchTacGia(keyword);
+        model.setRowCount(0);
+        for (TacGia tg : list) {
+            model.addRow(new Object[]{
+                tg.getMaTacGia(), tg.getTenTacGia(), tg.getNgaySinh()
+            });
+        }
+    }
 }
