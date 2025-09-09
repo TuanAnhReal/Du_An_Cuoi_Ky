@@ -20,6 +20,16 @@ public class DocGia {
     private String email;
     private byte[] AnhChanDung;
 
+    public DocGia() {
+    }
+
+    public DocGia(int maDocGia, String hoTen, String diaChi, String email) {
+        this.maDocGia = maDocGia;
+        this.hoTen = hoTen;
+        this.diaChi = diaChi;
+        this.email = email;
+    }
+
     public DocGia(String hoTen, Date ngaySinh, String diaChi, String soDienThoai, String email, byte[] AnhChanDung) {
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;

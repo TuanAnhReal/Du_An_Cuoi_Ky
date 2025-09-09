@@ -74,7 +74,9 @@ public class TacGia {
 
     @Override
     public String toString() {
-        return "TacGia{" + "maTacGia=" + maTacGia + ", tenTacGia=" + tenTacGia + ", ngaySinh=" + ngaySinh + ", anhChanDung=" + anhChanDung + '}';
+        return tenTacGia;
     }
+
+
     
 }

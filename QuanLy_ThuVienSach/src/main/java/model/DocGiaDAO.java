@@ -15,9 +15,7 @@ public class DocGiaDAO {
         List<DocGia> list = new ArrayList<>();
         String sql = "SELECT * FROM DocGia";
 
-        try (Connection conn = DBConnection.getConnection(); 
-                Statement st = conn.createStatement(); 
-                    ResultSet rs = st.executeQuery(sql)) {
+        try (Connection conn = DBConnection.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
                 DocGia dg = new DocGia(
@@ -96,10 +94,10 @@ public class DocGiaDAO {
             if (dg.getAnhChanDung() != null) {
                 ps.setBytes(6, dg.getAnhChanDung());
             } else {
-                ps.setNull(6, java.sql.Types.BLOB); 
+                ps.setNull(6, java.sql.Types.BLOB);
             }
             ps.setInt(7, dg.getMaDocGia());
-            
+
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -185,6 +183,29 @@ public class DocGiaDAO {
         }
 
         return dg; // trả về null nếu không tìm thấy
+    }
+    //gọi đến thông tin độc giả trong piếu mượn
+    public DocGia getDocGiaBasicById(int maDocGia) {
+        String sql = "SELECT MaDocGia, HoTen, SoDienThoai, Email FROM DocGia WHERE MaDocGia = ?";
+        DocGia dg = null;
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, maDocGia);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    dg = new DocGia();
+                    dg.setMaDocGia(rs.getInt("MaDocGia"));
+                    dg.setHoTen(rs.getString("HoTen"));
+                    dg.setSoDienThoai(rs.getString("sodienthoai"));
+                    dg.setEmail(rs.getString("Email"));
+                    return dg;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy thông tin độc giả (basic):");
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

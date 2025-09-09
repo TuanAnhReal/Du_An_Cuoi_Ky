@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.sql.Date;
-
 /**
  *
  * @author ADMIN
@@ -18,10 +16,46 @@ public class Sach {
     private String tenTacGia;
     private int namxuatban;
     private String theLoai;
-    private String soLuong;
+    private int soLuong;
     private byte[] anhBia;
 
-    public Sach(int maSach, String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong) {
+    public Sach(int maSach, String tenSach, int maTacGia, int namxuatban, String theLoai, int soLuong, byte[] anhBia) {
+        this.maSach = maSach;
+        this.tenSach = tenSach;
+        this.maTacGia = maTacGia;
+        this.namxuatban = namxuatban;
+        this.theLoai = theLoai;
+        this.soLuong = soLuong;
+        this.anhBia = anhBia;
+    }
+
+    public Sach(String tenSach, int maTacGia, int namxuatban, String theLoai, int soLuong, byte[] anhBia) {
+        this.tenSach = tenSach;
+        this.maTacGia = maTacGia;
+        this.namxuatban = namxuatban;
+        this.theLoai = theLoai;
+        this.soLuong = soLuong;
+        this.anhBia = anhBia;
+    }
+
+    public Sach(String tenSach, String tenTacGia, int namxuatban, String theLoai, int soLuong) {
+        this.tenSach = tenSach;
+        this.tenTacGia = tenTacGia;
+        this.namxuatban = namxuatban;
+        this.theLoai = theLoai;
+        this.soLuong = soLuong;
+    }
+
+    public Sach(String tenSach, String tenTacGia, int namxuatban, String theLoai, int soLuong, byte[] anhBia) {
+        this.tenSach = tenSach;
+        this.tenTacGia = tenTacGia;
+        this.namxuatban = namxuatban;
+        this.theLoai = theLoai;
+        this.soLuong = soLuong;
+        this.anhBia = anhBia;
+    }
+
+    public Sach(int maSach, String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, int soLuong) {
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.maTacGia = maTacGia;
@@ -31,7 +65,7 @@ public class Sach {
         this.soLuong = soLuong;
     }
 
-    public Sach(int maSach, String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong, byte[] anhBia) {
+    public Sach(int maSach, String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, int soLuong, byte[] anhBia) {
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.maTacGia = maTacGia;
@@ -42,7 +76,7 @@ public class Sach {
         this.anhBia = anhBia;
     }
 
-    public Sach(String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong, byte[] anhBia) {
+    public Sach(String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, int soLuong, byte[] anhBia) {
         this.tenSach = tenSach;
         this.maTacGia = maTacGia;
         this.tenTacGia = tenTacGia;
@@ -52,7 +86,7 @@ public class Sach {
         this.anhBia = anhBia;
     }
 
-    public Sach(String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, String soLuong) {
+    public Sach(String tenSach, int maTacGia, String tenTacGia, int namxuatban, String theLoai, int soLuong) {
         this.tenSach = tenSach;
         this.maTacGia = maTacGia;
         this.tenTacGia = tenTacGia;
@@ -109,11 +143,11 @@ public class Sach {
         this.theLoai = theLoai;
     }
 
-    public String getSoLuong() {
+    public int getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(String soLuong) {
+    public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
 

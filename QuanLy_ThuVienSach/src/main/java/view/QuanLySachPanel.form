@@ -30,7 +30,7 @@
                           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="pnThongTin" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace pref="204" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lblAnhBia" alignment="1" min="-2" pref="120" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
@@ -136,9 +136,9 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtTacGia" alignment="0" pref="250" max="32767" attributes="0"/>
                               <Component id="txtTenSach" alignment="0" pref="250" max="32767" attributes="0"/>
                               <Component id="txtNamXB" pref="250" max="32767" attributes="0"/>
+                              <Component id="cboTenTacGia" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -155,9 +155,9 @@
                       <Component id="jLabel2" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtTacGia" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabel3" pref="30" max="32767" attributes="0"/>
+                      <Component id="cboTenTacGia" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -185,6 +185,9 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="T&#xea;n s&#xe1;ch"/>
           </Properties>
         </Component>
@@ -192,16 +195,25 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="T&#xe1;c g&#x1ea3;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="N&#x103;m xu&#x1ea5;t b&#x1ea3;n"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Th&#x1ec3; lo&#x1ea1;i"/>
           </Properties>
         </Component>
@@ -212,14 +224,25 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTheLoai">
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTacGia">
-        </Component>
         <Component class="javax.swing.JTextField" name="txtSoLuong">
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cboTenTacGia">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;TacGia&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -251,6 +274,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblSachMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -295,26 +321,41 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Th&#xea;m "/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnSua">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnXoa">
           <Properties>
             <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnLamMoi">
           <Properties>
             <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLamMoiActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnTimKiem">
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimKiemActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

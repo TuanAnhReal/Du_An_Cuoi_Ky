@@ -6,14 +6,18 @@ package view;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.Sach;
 import model.SachDAO;
+import model.TacGia;
+import model.TacGiaDAO;
 
 /**
  *
@@ -24,7 +28,9 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     private DefaultTableModel model;
     private String selectedFilePath;
     private SachDAO sachDAO = new SachDAO();
-    private List<SachDAO> list = new ArrayList<>();
+    private List<Sach> list = new ArrayList<>();
+    private TacGiaDAO tacGiaDAO = new TacGiaDAO();
+    private List<TacGia> listTacGia = new ArrayList<>();
 
     public QuanLySachPanel() {
         initComponents();
@@ -32,6 +38,8 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         model = new DefaultTableModel(tieudecot, 0);
         tblSach.setModel(model);
         loadData();
+        loadTacGia();
+        cboTenTacGia.setEnabled(false);
     }
 
     /**
@@ -55,8 +63,8 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         txtNamXB = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtTheLoai = new javax.swing.JTextField();
-        txtTacGia = new javax.swing.JTextField();
         txtSoLuong = new javax.swing.JTextField();
+        cboTenTacGia = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSach = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -85,12 +93,16 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ SÁCH");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Tên sách");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Tác gả");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Năm xuất bản");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Thể loại");
 
         txtNamXB.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +111,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("Số lượng");
 
         javax.swing.GroupLayout pnThongTinLayout = new javax.swing.GroupLayout(pnThongTin);
@@ -123,9 +136,9 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtTacGia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                             .addComponent(txtTenSach, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(txtNamXB, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
+                            .addComponent(txtNamXB, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(cboTenTacGia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnThongTinLayout.setVerticalGroup(
@@ -136,9 +149,9 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                     .addComponent(txtTenSach, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTacGia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(cboTenTacGia))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,17 +182,47 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                 "Tên sách", "Tác giả", "Năm xuất bản", "Thể loại", "Số lượng"
             }
         ));
+        tblSach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSachMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblSach);
 
         btnThem.setText("Thêm ");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xoá");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnLamMoi.setText("Làm mới");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
         btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -224,7 +267,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(pnThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 204, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAnhBia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -281,6 +324,68 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnChonAnhActionPerformed
 
+    private void tblSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSachMouseClicked
+        // TODO add your handling code here:
+        int row = tblSach.getSelectedRow();
+        if (row != -1) {
+            Sach s = list.get(row);
+
+            txtTenSach.setText(s.getTenSach());
+            txtNamXB.setText(String.valueOf(s.getNamxuatban()));
+            txtTheLoai.setText(s.getTheLoai());
+            txtSoLuong.setText(String.valueOf(s.getSoLuong()));
+
+            // Chọn đúng tác giả trong combobox
+            for (int i = 0; i < cboTenTacGia.getItemCount(); i++) {
+                TacGia tg = cboTenTacGia.getItemAt(i);
+                if (tg.getMaTacGia() == s.getMaTacGia()) {
+                    cboTenTacGia.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Hiển thị ảnh bìa
+            if (s.getAnhBia() != null) {
+                ImageIcon imageIcon = new ImageIcon(s.getAnhBia());
+                int labelWidth = lblAnhBia.getWidth();
+                int labelHeight = lblAnhBia.getHeight();
+                ImageIcon resizeIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(labelWidth, labelHeight, java.awt.Image.SCALE_SMOOTH));
+                lblAnhBia.setIcon(resizeIcon);
+            } else {
+                lblAnhBia.setIcon(null);
+            }
+        }
+
+    }//GEN-LAST:event_tblSachMouseClicked
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        themSach();
+        loadData();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        suaSach();
+        loadData();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        xoaSach();
+        loadData();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        // TODO add your handling code here:
+        lamMoi();
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+        timKiem();
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChonAnh;
@@ -289,6 +394,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JComboBox<TacGia> cboTenTacGia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -302,14 +408,13 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     private javax.swing.JTable tblSach;
     private javax.swing.JTextField txtNamXB;
     private javax.swing.JTextField txtSoLuong;
-    private javax.swing.JTextField txtTacGia;
     private javax.swing.JTextField txtTenSach;
     private javax.swing.JTextField txtTheLoai;
     // End of variables declaration//GEN-END:variables
 
     private void loadData() {
         model.setRowCount(0);
-        List<Sach> list = sachDAO.getAll();
+        list = sachDAO.getAll(); // Lấy toàn bộ sách từ DB
         for (Sach s : list) {
             model.addRow(new Object[]{
                 s.getTenSach(),
@@ -319,6 +424,136 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                 s.getSoLuong()
             });
         }
-        lblAnhBia.setIcon(null); // Xóa ảnh khi load danh sách mới
+        lblAnhBia.setIcon(null);
     }
+
+    private void loadTacGia() {
+        listTacGia = TacGiaDAO.getAll();
+        cboTenTacGia.removeAllItems();
+        for (TacGia tg : listTacGia) {
+            cboTenTacGia.addItem(tg);
+        }
+    }
+
+    private void themSach() {
+        try {
+            String tenSach = txtTenSach.getText();
+            TacGia tacGia = (TacGia) cboTenTacGia.getSelectedItem(); // Lấy object TacGia
+            int namXB = Integer.parseInt(txtNamXB.getText());
+            String theLoai = txtTheLoai.getText();
+            int soLuong = Integer.parseInt(txtSoLuong.getText());
+
+            byte[] anhBia = null;
+            if (selectedFilePath != null) {
+                try (FileInputStream fis = new FileInputStream(selectedFilePath)) {
+                    anhBia = fis.readAllBytes();
+                }
+            }
+
+            Sach s = new Sach(tenSach, tacGia.getMaTacGia(), namXB, theLoai, soLuong, anhBia);
+
+            if (sachDAO.insertSach(s)) {
+                JOptionPane.showMessageDialog(this, "Thêm sách thành công");
+                loadData();
+                lamMoi();
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm sách thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+            e.printStackTrace();
+        }
+    }
+
+    private void suaSach() {
+        int row = tblSach.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn sách cần sửa");
+            return;
+        }
+        try {
+            int maSach = list.get(row).getMaSach(); // Lấy ID từ danh sách
+            String tenSach = txtTenSach.getText();
+            TacGia tacGia = (TacGia) cboTenTacGia.getSelectedItem();
+            int namXB = Integer.parseInt(txtNamXB.getText());
+            String theLoai = txtTheLoai.getText();
+            int soLuong = Integer.parseInt(txtSoLuong.getText());
+
+            byte[] anhBia = null;
+            if (selectedFilePath != null && !selectedFilePath.isEmpty()) {
+                try (FileInputStream fis = new FileInputStream(selectedFilePath)) {
+                    anhBia = fis.readAllBytes();
+                }
+            } else {
+                anhBia = list.get(row).getAnhBia(); // Giữ ảnh cũ nếu không chọn ảnh mới
+            }
+
+            Sach s = new Sach(maSach, tenSach, tacGia.getMaTacGia(), namXB, theLoai, soLuong, anhBia);
+
+            if (sachDAO.updateSach(s)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật sách thành công");
+                loadData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+            e.printStackTrace();
+        }
+    }
+
+    private void xoaSach() {
+        int row = tblSach.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn sách cần xóa");
+            return;
+        }
+
+        try {
+            int maSach = list.get(row).getMaSach();
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sách này?");
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            if (sachDAO.deleteSach(maSach)) {
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                loadData();
+                lamMoi();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+            e.printStackTrace();
+        }
+    }
+
+    private void lamMoi() {
+        txtTenSach.setText("");
+        txtNamXB.setText("");
+        txtTheLoai.setText("");
+        txtSoLuong.setText("");
+        cboTenTacGia.setSelectedIndex(0);
+        cboTenTacGia.setEnabled(true);
+        lblAnhBia.setIcon(null);
+        selectedFilePath = null;
+        tblSach.clearSelection();
+    }
+
+    private void timKiem() {
+        String keyword = txtTenSach.getText().trim();
+        List<Sach> listSearch = sachDAO.searchSach(keyword);
+        model.setRowCount(0);
+        for (Sach s : listSearch) {
+            model.addRow(new Object[]{
+                s.getTenSach(),
+                s.getTenTacGia(),
+                s.getNamxuatban(),
+                s.getTheLoai(),
+                s.getSoLuong()
+            });
+        }
+    }
+
 }
