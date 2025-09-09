@@ -1,95 +1,40 @@
 package model;
 
 import java.util.Date;
-import java.util.List;
 
 public class PhieuMuon {
-    private int maPhieu;           
-    private int maDocGia;          
-    private String tenDocGia;      
-    private Date ngayMuon;        
-    private Date ngayTra;   
-    private Date hanTra;
-    private String trangThai;      
-    
-    // Danh sách chi tiết mượn
-    private List<ChiTietMuon> danhSachSach;
 
-    // Constructor rỗng
-    public PhieuMuon() {}
+    private int maPhieu;
+    private int maDocGia;
+    private String tenDocGia;
+    private Date ngayMuon;
+    private Date ngayHenTra;
 
-    public PhieuMuon(int maPhieu, String tenDocGia, Date ngayMuon, Date ngayTra, Date hanTra, String trangThai) {
-        this.maPhieu = maPhieu;
-        this.tenDocGia = tenDocGia;
-        this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-        this.hanTra = hanTra;
-        this.trangThai = trangThai;
-    }
-
-    public PhieuMuon(int maPhieu, int maDocGia, Date ngayMuon, Date ngayTra, Date hanTra) {
-        this.maPhieu = maPhieu;
-        this.maDocGia = maDocGia;
-        this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-        this.hanTra = hanTra;
-    }
-
-    public PhieuMuon(int maPhieu, int maDocGia, Date ngayMuon, Date ngayTra) {
-        this.maPhieu = maPhieu;
-        this.maDocGia = maDocGia;
-        this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-    }
-
-    public PhieuMuon(int maPhieu, int maDocGia, String tenDocGia, Date ngayMuon, Date ngayTra, Date hanTra, String trangThai) {
+    public PhieuMuon(int maPhieu, int maDocGia, String tenDocGia, Date ngayMuon, Date ngayHenTra) {
         this.maPhieu = maPhieu;
         this.maDocGia = maDocGia;
         this.tenDocGia = tenDocGia;
         this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-        this.hanTra = hanTra;
-        this.trangThai = trangThai;
+        this.ngayHenTra = ngayHenTra;
     }
 
-    public PhieuMuon(int maPhieu, int maDocGia, Date ngayMuon, Date ngayTra, Date hanTra, String trangThai) {
-        this.maPhieu = maPhieu;
-        this.maDocGia = maDocGia;
-        this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-        this.hanTra = hanTra;
-        this.trangThai = trangThai;
-    }
-
-    public Date getHanTra() {
-        return hanTra;
-    }
-
-    public void setHanTra(Date hanTra) {
-        this.hanTra = hanTra;
-    }
-
-    public PhieuMuon(int maPhieu, int maDocGia, String tenDocGia, Date ngayMuon, Date ngayTra, String trangThai, List<ChiTietMuon> danhSachSach) {
-        this.maPhieu = maPhieu;
+    public PhieuMuon(int maDocGia, String tenDocGia, Date ngayMuon, Date ngayHenTra) {
         this.maDocGia = maDocGia;
         this.tenDocGia = tenDocGia;
         this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-        this.trangThai = trangThai;
-        this.danhSachSach = danhSachSach;
+        this.ngayHenTra = ngayHenTra;
     }
 
-    // Constructor đầy đủ
-    public PhieuMuon(int maPhieu, int maDocGia, String tenDocGia, Date ngayMuon, Date ngayTra, String trangThai) {
+    public PhieuMuon() {
+    }
+
+    public PhieuMuon(int maPhieu, int maDocGia, Date ngayMuon, Date ngayHenTra) {
         this.maPhieu = maPhieu;
         this.maDocGia = maDocGia;
-        this.tenDocGia = tenDocGia;
         this.ngayMuon = ngayMuon;
-        this.ngayTra = ngayTra;
-        this.trangThai = trangThai;
+        this.ngayHenTra = ngayHenTra;
     }
 
-    // Getter & Setter
     public int getMaPhieu() {
         return maPhieu;
     }
@@ -122,27 +67,12 @@ public class PhieuMuon {
         this.ngayMuon = ngayMuon;
     }
 
-    public Date getNgayTra() {
-        return ngayTra;
+    public Date getNgayHenTra() {
+        return ngayHenTra;
     }
 
-    public void setNgayTra(Date ngayTra) {
-        this.ngayTra = ngayTra;
+    public void setNgayHenTra(Date ngayHenTra) {
+        this.ngayHenTra = ngayHenTra;
     }
 
-    public String getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public List<ChiTietMuon> getDanhSachSach() {
-        return danhSachSach;
-    }
-
-    public void setDanhSachSach(List<ChiTietMuon> danhSachSach) {
-        this.danhSachSach = danhSachSach;
-    }
 }

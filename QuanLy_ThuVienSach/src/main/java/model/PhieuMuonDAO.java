@@ -9,34 +9,52 @@ import java.util.List;
 public class PhieuMuonDAO {
 
     // Thêm phiếu mượn
-public int insertPhieuMuon(PhieuMuon pm) {
-    String sql = "INSERT INTO PhieuMuon(MaDocGia, NgayMuon, NgayHenTra, TinhTrang) VALUES (?, ?, ?, ?)";
+    public int insertPhieuMuon(PhieuMuon pm) {
+        String sql = "INSERT INTO PhieuMuon(MaDocGia, NgayMuon, NgayHenTra) VALUES (?, ?, ?)";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-        ps.setInt(1, pm.getMaDocGia());
-        ps.setDate(2, new java.sql.Date(pm.getNgayMuon().getTime()));
-        ps.setDate(3, new java.sql.Date(pm.getHanTra().getTime()));
-        ps.setString(4, pm.getTrangThai());  // Thêm trạng thái vào
+            ps.setInt(1, pm.getMaDocGia());
+            ps.setDate(2, new java.sql.Date(pm.getNgayMuon().getTime()));
+            ps.setDate(3, new java.sql.Date(pm.getNgayHenTra().getTime()));
 
-        int rows = ps.executeUpdate();
-        if (rows > 0) {
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1); // Trả về mã phiếu mới
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getInt(1); // Trả về mã phiếu mới
+                    }
                 }
             }
+
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi thêm phiếu mượn:");
+            e.printStackTrace();
         }
 
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi thêm phiếu mượn:");
-        e.printStackTrace();
+        return -1; // Thêm thất bại
     }
 
-    return -1; // Thêm thất bại
-}
+    // Sửa thông tin phiếu mượn: ngày mượn, ngày hẹn trả
+    public boolean updatePhieuMuon(PhieuMuon pm) {
+        String sql = "UPDATE PhieuMuon SET NgayMuon = ?, NgayHenTra = ? WHERE MaPhieu = ?";
 
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            // Cập nhật ngày mượn và ngày hẹn trả
+            ps.setDate(1, new java.sql.Date(pm.getNgayMuon().getTime()));
+            ps.setDate(2, new java.sql.Date(pm.getNgayHenTra().getTime()));
+            ps.setInt(3, pm.getMaPhieu());
+
+            // Thực hiện câu lệnh cập nhật
+            int rows = ps.executeUpdate();
+            return rows > 0;  // Trả về true nếu cập nhật thành công, ngược lại false
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi sửa phiếu mượn:");
+            e.printStackTrace();
+        }
+
+        return false;  // Trả về false nếu có lỗi
+    }
 
     public List<PhieuMuon> getAllPhieuMuon() {
         List<PhieuMuon> list = new ArrayList<>();

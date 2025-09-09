@@ -3,16 +3,22 @@ package model;
 public class ChiTietMuon {
     private int maPhieu;      // FK
     private int maSach;       // FK
-    private String tenSach;   // Để hiển thị
     private int soLuong;
     private String tinhTrang; // "Đang mượn", "Đã trả", "Mất sách"...
 
     public ChiTietMuon() {}
+private PhieuMuon phieuMuon;
 
-    public ChiTietMuon(int maPhieu, int maSach, String tenSach, int soLuong, String tinhTrang) {
+public ChiTietMuon(PhieuMuon phieuMuon, int maSach, int soLuong, String tinhTrang) {
+    this.phieuMuon = phieuMuon;
+    this.maSach = maSach;
+    this.soLuong = soLuong;
+    this.tinhTrang = tinhTrang;
+}
+
+    public ChiTietMuon(int maPhieu, int maSach, int soLuong, String tinhTrang) {
         this.maPhieu = maPhieu;
         this.maSach = maSach;
-        this.tenSach = tenSach;
         this.soLuong = soLuong;
         this.tinhTrang = tinhTrang;
     }
@@ -31,14 +37,6 @@ public class ChiTietMuon {
 
     public void setMaSach(int maSach) {
         this.maSach = maSach;
-    }
-
-    public String getTenSach() {
-        return tenSach;
-    }
-
-    public void setTenSach(String tenSach) {
-        this.tenSach = tenSach;
     }
 
     public int getSoLuong() {
