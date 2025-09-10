@@ -101,43 +101,36 @@ CREATE PROCEDURE sp_SuaChiTietMuon
     @MaPhieu INT,
     @MaSach INT,
     @SoLuongMoi INT,
-    @TinhTrangMoi NVARCHAR(50),
-    @NgayTraThucTe DATE = NULL
+    @TinhTrang NVARCHAR(50),
+    @NgayTraThucTe DATE
 AS
 BEGIN
-    SET NOCOUNT ON;
+    DECLARE @SoLuongCu INT;
 
-    DECLARE @SoLuongCu INT, @TinhTrangCu NVARCHAR(50);
-
-    -- Lấy thông tin cũ
-    SELECT @SoLuongCu = SoLuong, @TinhTrangCu = TinhTrang
+    -- Lấy số lượng cũ
+    SELECT @SoLuongCu = SoLuong
     FROM ChiTietMuon
     WHERE MaPhieu = @MaPhieu AND MaSach = @MaSach;
 
-    -- Xử lý tồn kho theo thay đổi tình trạng
-    IF (@TinhTrangCu = N'Đang mượn' AND @TinhTrangMoi = N'Đã trả')
+    DECLARE @Delta INT = @SoLuongMoi - @SoLuongCu;
+
+    -- Nếu mượn thêm thì check tồn kho
+    IF @Delta > 0
     BEGIN
-        UPDATE Sach SET SoLuong = SoLuong + @SoLuongCu WHERE MaSach = @MaSach;
-    END
-    ELSE IF (@TinhTrangCu = N'Đã trả' AND @TinhTrangMoi = N'Đang mượn')
-    BEGIN
-        IF EXISTS (SELECT 1 FROM Sach WHERE MaSach = @MaSach AND SoLuong >= @SoLuongMoi)
+        IF NOT EXISTS (SELECT 1 FROM Sach WHERE MaSach=@MaSach AND SoLuong >= @Delta)
         BEGIN
-            UPDATE Sach SET SoLuong = SoLuong - @SoLuongMoi WHERE MaSach = @MaSach;
-        END
-        ELSE
-        BEGIN
-            RAISERROR(N'Sách không đủ để mượn lại', 16, 1);
+            RAISERROR(N'Sách không đủ số lượng để cập nhật',16,1);
             RETURN;
         END
     END
-    -- Các case khác (Đang mượn -> Mất/Hỏng) thì không cộng lại tồn kho
 
-    -- Update chi tiết mượn
+    -- Update chi tiết
     UPDATE ChiTietMuon
-    SET SoLuong = @SoLuongMoi,
-        TinhTrang = @TinhTrangMoi,
-        NgayTraThucTe = @NgayTraThucTe
-    WHERE MaPhieu = @MaPhieu AND MaSach = @MaSach;
+    SET SoLuong=@SoLuongMoi, TinhTrang=@TinhTrang, NgayTraThucTe=@NgayTraThucTe
+    WHERE MaPhieu=@MaPhieu AND MaSach=@MaSach;
+
+    -- Update tồn kho
+    UPDATE Sach
+    SET SoLuong = SoLuong - @Delta
+    WHERE MaSach=@MaSach;
 END;
-GO

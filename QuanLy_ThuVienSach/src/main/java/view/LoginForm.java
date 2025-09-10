@@ -4,9 +4,10 @@
  */
 package view;
 
+import dao.TaiKhoanDAO;
 import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
+import model.TaiKhoan;
 import tienich.PlaceholderSupport;
 import tienich.CreateHyperLink;
 
@@ -43,7 +44,7 @@ public class LoginForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnDangNhap = new javax.swing.JButton();
         chkHienMatKhau = new javax.swing.JCheckBox();
-        txtTaiKhoan = new javax.swing.JTextField();
+        txtTenTaiKhoan = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JPasswordField();
         lblQuenMatKhau = new javax.swing.JLabel();
         lblDangKy = new javax.swing.JLabel();
@@ -95,7 +96,7 @@ public class LoginForm extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtMatKhau)
-                            .addComponent(txtTaiKhoan)
+                            .addComponent(txtTenTaiKhoan)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(chkHienMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
@@ -113,7 +114,7 @@ public class LoginForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTenTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -167,10 +168,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void btnDangNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangNhapMouseClicked
         // TODO add your handling code here:
-        this.dispose();
-        HomeForm homeForm = new HomeForm();
-        homeForm.setLocationRelativeTo(null);
-        homeForm.setVisible(true);
+        login();
     }//GEN-LAST:event_btnDangNhapMouseClicked
 
     /**
@@ -206,7 +204,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblDangKy;
     private javax.swing.JLabel lblQuenMatKhau;
     private javax.swing.JPasswordField txtMatKhau;
-    private javax.swing.JTextField txtTaiKhoan;
+    private javax.swing.JTextField txtTenTaiKhoan;
     // End of variables declaration//GEN-END:variables
 
     private void hienMatKhau() {
@@ -218,7 +216,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     private void placeTKMK() {
-        PlaceholderSupport.addPlaceholder(txtTaiKhoan, "Nhập tên đăng nhập");
+        PlaceholderSupport.addPlaceholder(txtTenTaiKhoan, "Nhập tên đăng nhập");
         PlaceholderSupport.addPlaceholder(txtMatKhau, "Nhập mật khẩu");
 
     }
@@ -232,6 +230,32 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void taoHyperLink() {
         CreateHyperLink.createHyperlink(lblQuenMatKhau, "Quên mật khẩu");
+    }
+
+    private void login() {
+        String user = txtTenTaiKhoan.getText().trim();
+        String pass = new String(txtMatKhau.getPassword());
+
+        TaiKhoan tkInput = new TaiKhoan();
+        tkInput.setTenDangNhap(user);
+        tkInput.setMatKhau(pass);
+
+        TaiKhoanDAO dao = new TaiKhoanDAO();
+        TaiKhoan tkResult = dao.checkLogin(tkInput);
+
+        if (tkResult != null) {
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công! Vai trò: " + tkResult.getVaiTro());
+
+            // mở giao diện chính
+            this.dispose();
+            HomeForm homeForm = new HomeForm();
+            homeForm.setLocationRelativeTo(null);
+            homeForm.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Sai tên đăng nhập hoặc mật khẩu!");
+        }
+
     }
 
 }

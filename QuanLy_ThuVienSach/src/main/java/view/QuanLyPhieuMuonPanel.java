@@ -444,7 +444,7 @@ public class QuanLyPhieuMuonPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 // Hàm mặc định: load tất cả
-    private void loadPhieuMuon() {
+    private  void loadPhieuMuon() {
         loadPhieuMuon("Tất cả"); // gọi sang hàm có filter
     }
 

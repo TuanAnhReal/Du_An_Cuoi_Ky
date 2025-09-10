@@ -76,7 +76,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtMatKhau" max="32767" attributes="0"/>
-                              <Component id="txtTaiKhoan" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtTenTaiKhoan" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="chkHienMatKhau" min="-2" pref="111" max="-2" attributes="0"/>
                                   <EmptySpace pref="82" max="32767" attributes="0"/>
@@ -103,7 +103,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtTaiKhoan" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="txtTenTaiKhoan" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtMatKhau" min="-2" pref="42" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -140,7 +140,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkHienMatKhauActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTaiKhoan">
+        <Component class="javax.swing.JTextField" name="txtTenTaiKhoan">
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtMatKhau">
         </Component>

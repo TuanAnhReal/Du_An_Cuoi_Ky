@@ -4,7 +4,11 @@
  */
 package view;
 
+import dao.ExportDAO;
+import dao.ImportDAO;
 import java.awt.CardLayout;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -24,6 +28,7 @@ public class HomeForm extends javax.swing.JFrame {
     public HomeForm() {
         initComponents();
         khoiTaoPanel();
+
     }
 
     /**
@@ -43,9 +48,9 @@ public class HomeForm extends javax.swing.JFrame {
         mniQLTacGia = new javax.swing.JMenuItem();
         mnHeThong = new javax.swing.JMenu();
         mniPhieuMuon = new javax.swing.JMenuItem();
-        mniImPort = new javax.swing.JMenuItem();
-        mniExPort = new javax.swing.JMenuItem();
+        mniNhapXuat = new javax.swing.JMenuItem();
         mnTroGiup = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         mnTaiKhoan = new javax.swing.JMenu();
         mniThongTinTaiKhoan = new javax.swing.JMenuItem();
         mniDangXuat = new javax.swing.JMenuItem();
@@ -76,20 +81,21 @@ public class HomeForm extends javax.swing.JFrame {
 
         jMenuBar1.add(mnQuanLy);
 
-        mnHeThong.setText("Hệ thống");
+        mnHeThong.setText("Phiếu mượn");
 
         mniPhieuMuon.setText("Phiếu mượn");
         mnHeThong.add(mniPhieuMuon);
 
-        mniImPort.setText("Import");
-        mnHeThong.add(mniImPort);
-
-        mniExPort.setText("Export");
-        mnHeThong.add(mniExPort);
+        mniNhapXuat.setText("Nhập xuất");
+        mnHeThong.add(mniNhapXuat);
 
         jMenuBar1.add(mnHeThong);
 
         mnTroGiup.setText("Trợ giúp");
+
+        jMenuItem1.setText("Hướng dẫn sử dụng");
+        mnTroGiup.add(jMenuItem1);
+
         jMenuBar1.add(mnTroGiup);
 
         mnTaiKhoan.setText("Tài khoản");
@@ -115,13 +121,13 @@ public class HomeForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -165,13 +171,13 @@ public class HomeForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu mnHeThong;
     private javax.swing.JMenu mnQuanLy;
     private javax.swing.JMenu mnTaiKhoan;
     private javax.swing.JMenu mnTroGiup;
     private javax.swing.JMenuItem mniDangXuat;
-    private javax.swing.JMenuItem mniExPort;
-    private javax.swing.JMenuItem mniImPort;
+    private javax.swing.JMenuItem mniNhapXuat;
     private javax.swing.JMenuItem mniPhieuMuon;
     private javax.swing.JMenuItem mniQLDocGia;
     private javax.swing.JMenuItem mniQLSach;
@@ -181,7 +187,7 @@ public class HomeForm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void khoiTaoPanel() {
-        // Gắn CardLayout vào pnlContent (panel bạn kéo thả trong design)
+        // Gắn CardLayout vào mainPanel
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
@@ -189,17 +195,22 @@ public class HomeForm extends javax.swing.JFrame {
         mainPanel.add(new QuanLySachPanel(), "QL_SACH");
         mainPanel.add(new QuanLyTacGiaPanel(), "QL_TACGIA");
         mainPanel.add(new QuanLyPhieuMuonPanel(), "QL_PHIEUMUON");
+        mainPanel.add(new NhapXuatPanel(), "QL_NHAPXUAT");
 
         pnlContent.setLayout(new java.awt.BorderLayout());
         pnlContent.add(mainPanel, java.awt.BorderLayout.CENTER);
         pnlContent.revalidate();
         pnlContent.repaint();
 
+        // Hiển thị panel mặc định
+        cardLayout.show(mainPanel, "QL_SACH"); 
+
         // Xử lý sự kiện menu
         mniQLDocGia.addActionListener(e -> cardLayout.show(mainPanel, "QL_DOCGIA"));
         mniQLSach.addActionListener(e -> cardLayout.show(mainPanel, "QL_SACH"));
         mniQLTacGia.addActionListener(e -> cardLayout.show(mainPanel, "QL_TACGIA"));
         mniPhieuMuon.addActionListener(e -> cardLayout.show(mainPanel, "QL_PHIEUMUON"));
-
+        mniNhapXuat.addActionListener(e -> cardLayout.show(mainPanel, "QL_NHAPXUAT"));
     }
+
 }
