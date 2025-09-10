@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.DocGia;
-import model.DocGiaDAO;
+import dao.DocGiaDAO;
 
 /**
  *

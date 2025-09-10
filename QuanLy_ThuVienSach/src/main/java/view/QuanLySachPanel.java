@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.Sach;
-import model.SachDAO;
+import dao.SachDAO;
 import model.TacGia;
-import model.TacGiaDAO;
+import dao.TacGiaDAO;
 
 /**
  *

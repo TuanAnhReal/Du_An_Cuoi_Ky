@@ -1,26 +1,25 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PhieuMuon {
 
     private int maPhieu;
     private int maDocGia;
-    private String tenDocGia;
     private Date ngayMuon;
     private Date ngayHenTra;
 
-    public PhieuMuon(int maPhieu, int maDocGia, String tenDocGia, Date ngayMuon, Date ngayHenTra) {
-        this.maPhieu = maPhieu;
-        this.maDocGia = maDocGia;
-        this.tenDocGia = tenDocGia;
-        this.ngayMuon = ngayMuon;
-        this.ngayHenTra = ngayHenTra;
-    }
+    private List<ChiTietMuon> chiTietList = new ArrayList<>();
 
-    public PhieuMuon(int maDocGia, String tenDocGia, Date ngayMuon, Date ngayHenTra) {
+    public void addChiTiet(ChiTietMuon chiTiet) {
+        chiTiet.setPhieuMuon(this);
+        chiTietList.add(chiTiet);
+    }
+    
+    public PhieuMuon(int maDocGia, Date ngayMuon, Date ngayHenTra) {
         this.maDocGia = maDocGia;
-        this.tenDocGia = tenDocGia;
         this.ngayMuon = ngayMuon;
         this.ngayHenTra = ngayHenTra;
     }
@@ -49,14 +48,6 @@ public class PhieuMuon {
 
     public void setMaDocGia(int maDocGia) {
         this.maDocGia = maDocGia;
-    }
-
-    public String getTenDocGia() {
-        return tenDocGia;
-    }
-
-    public void setTenDocGia(String tenDocGia) {
-        this.tenDocGia = tenDocGia;
     }
 
     public Date getNgayMuon() {

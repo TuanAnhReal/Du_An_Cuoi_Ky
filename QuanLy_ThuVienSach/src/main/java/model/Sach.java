@@ -19,6 +19,11 @@ public class Sach {
     private int soLuong;
     private byte[] anhBia;
 
+    public Sach(int maSach, String tenSach) {
+        this.maSach = maSach;
+        this.tenSach = tenSach;
+    }
+
     public Sach(int maSach, String tenSach, int maTacGia, int namxuatban, String theLoai, int soLuong, byte[] anhBia) {
         this.maSach = maSach;
         this.tenSach = tenSach;
@@ -157,6 +162,11 @@ public class Sach {
 
     public void setAnhBia(byte[] anhBia) {
         this.anhBia = anhBia;
+    }
+
+    @Override
+    public String toString() {
+        return this.tenSach;
     }
 
     

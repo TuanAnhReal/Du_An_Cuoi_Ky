@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.DocGia;
 import util.DBConnection;
 
 public class DocGiaDAO {
@@ -15,7 +16,8 @@ public class DocGiaDAO {
         List<DocGia> list = new ArrayList<>();
         String sql = "SELECT * FROM DocGia";
 
-        try (Connection conn = DBConnection.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+        try (Connection conn = DBConnection.getConnection(); Statement st = conn.createStatement(); 
+                ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
                 DocGia dg = new DocGia(

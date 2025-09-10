@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.Sach;
 import util.DBConnection;
 
 /**
@@ -53,7 +54,8 @@ public class SachDAO {
     public boolean insertSach(Sach s) {
         String sql = "INSERT INTO Sach (TenSach, NamXuatBan, TheLoai, SoLuong, AnhBia, MaTacGia) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = DBConnection.getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, s.getTenSach());
             ps.setInt(2, s.getNamxuatban());
@@ -198,6 +200,58 @@ public class SachDAO {
         }
 
         return s; // trả về null nếu không tìm thấy
+    }
+
+    //Lấy tên sách cho cboTenSachMuon
+    public static List<String> getTenSach() {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT TenSach FROM Sach";
+
+        try (Connection conn = DBConnection.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                list.add(rs.getString("TenSach"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    //lấy mã sách từ cboTenSachMuon
+    public static int getMaSachByTen(String tenSach) {
+        String sql = "SELECT MaSach FROM Sach WHERE TenSach = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, tenSach);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("MaSach");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // không tìm thấy
+    }
+
+    //lấy tên sách từ mã sách 
+    public static String getTenSachByMa(int maSach) {
+        String sql = "SELECT TenSach FROM Sach WHERE MaSach = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, maSach);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("TenSach");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

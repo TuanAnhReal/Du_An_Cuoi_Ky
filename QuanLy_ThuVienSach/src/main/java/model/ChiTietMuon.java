@@ -1,20 +1,39 @@
 package model;
 
+import java.sql.Date;
+
 public class ChiTietMuon {
+
     private int maPhieu;      // FK
+    private PhieuMuon phieuMuon;
     private int maSach;       // FK
     private int soLuong;
     private String tinhTrang; // "Đang mượn", "Đã trả", "Mất sách"...
+    private Date ngayTraThucTe;
 
-    public ChiTietMuon() {}
-private PhieuMuon phieuMuon;
 
-public ChiTietMuon(PhieuMuon phieuMuon, int maSach, int soLuong, String tinhTrang) {
-    this.phieuMuon = phieuMuon;
-    this.maSach = maSach;
-    this.soLuong = soLuong;
-    this.tinhTrang = tinhTrang;
-}
+
+    public PhieuMuon getPhieuMuon() {
+        return phieuMuon;
+    }
+
+    public ChiTietMuon() {
+    }
+
+    public ChiTietMuon(PhieuMuon phieuMuon, int maSach, int soLuong, String tinhTrang, Date ngayTraThucTe) {
+        this.phieuMuon = phieuMuon;
+        this.maSach = maSach;
+        this.soLuong = soLuong;
+        this.tinhTrang = tinhTrang;
+        this.ngayTraThucTe = ngayTraThucTe;
+    }
+
+    public ChiTietMuon(int maSach, int soLuong, String tinhTrang, Date ngayTraThucTe) {
+        this.maSach = maSach;
+        this.soLuong = soLuong;
+        this.tinhTrang = tinhTrang;
+        this.ngayTraThucTe = ngayTraThucTe;
+    }
 
     public ChiTietMuon(int maPhieu, int maSach, int soLuong, String tinhTrang) {
         this.maPhieu = maPhieu;
@@ -54,4 +73,17 @@ public ChiTietMuon(PhieuMuon phieuMuon, int maSach, int soLuong, String tinhTran
     public void setTinhTrang(String tinhTrang) {
         this.tinhTrang = tinhTrang;
     }
+
+    public Date getNgayTraThucTe() {
+        return ngayTraThucTe;
+    }
+
+    public void setNgayTraThucTe(Date ngayTraThucTe) {
+        this.ngayTraThucTe = ngayTraThucTe;
+    }
+
+    public void setPhieuMuon(PhieuMuon phieuMuon) {
+        this.phieuMuon = phieuMuon;
+    }
+
 }
