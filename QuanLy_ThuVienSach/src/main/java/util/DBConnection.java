@@ -14,7 +14,7 @@ import java.sql.DriverManager;
 public class DBConnection {
     static String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyThuVienSach;encrypt=false";
     static String user = "sa";
-    static String pass = "@Azx54513132";
+    static String pass = "sa";
     
     public static Connection getConnection()
     {

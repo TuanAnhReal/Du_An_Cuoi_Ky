@@ -10,6 +10,7 @@ import java.awt.CardLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import tienich.ResizeIcons;
 
 /**
  *
@@ -28,7 +29,7 @@ public class HomeForm extends javax.swing.JFrame {
     public HomeForm() {
         initComponents();
         khoiTaoPanel();
-
+        setupIMG();
     }
 
     /**
@@ -57,52 +58,72 @@ public class HomeForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        pnlContent.setPreferredSize(new java.awt.Dimension(1000, 650));
+
         javax.swing.GroupLayout pnlContentLayout = new javax.swing.GroupLayout(pnlContent);
         pnlContent.setLayout(pnlContentLayout);
         pnlContentLayout.setHorizontalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         pnlContentLayout.setVerticalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
 
         mnQuanLy.setText("Quản lý");
+        mnQuanLy.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        mniQLSach.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        mniQLSach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/books-50.png"))); // NOI18N
         mniQLSach.setText("Quản lý sách");
         mnQuanLy.add(mniQLSach);
 
+        mniQLDocGia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        mniQLDocGia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user-50.png"))); // NOI18N
         mniQLDocGia.setText("Quản lý độc giả");
         mnQuanLy.add(mniQLDocGia);
 
+        mniQLTacGia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        mniQLTacGia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/author-50.png"))); // NOI18N
         mniQLTacGia.setText("Quản lý tác giả");
         mnQuanLy.add(mniQLTacGia);
 
         jMenuBar1.add(mnQuanLy);
 
         mnHeThong.setText("Phiếu mượn");
+        mnHeThong.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        mniPhieuMuon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        mniPhieuMuon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/borrow-50.png"))); // NOI18N
         mniPhieuMuon.setText("Phiếu mượn");
         mnHeThong.add(mniPhieuMuon);
 
+        mniNhapXuat.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        mniNhapXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/excel-50.png"))); // NOI18N
         mniNhapXuat.setText("Nhập xuất");
         mnHeThong.add(mniNhapXuat);
 
         jMenuBar1.add(mnHeThong);
 
         mnTroGiup.setText("Trợ giúp");
+        mnTroGiup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jMenuItem1.setText("Hướng dẫn sử dụng");
         mnTroGiup.add(jMenuItem1);
 
         jMenuBar1.add(mnTroGiup);
 
         mnTaiKhoan.setText("Tài khoản");
+        mnTaiKhoan.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        mniThongTinTaiKhoan.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         mniThongTinTaiKhoan.setText("Thông tin tài khoản");
         mnTaiKhoan.add(mniThongTinTaiKhoan);
 
+        mniDangXuat.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        mniDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logout-50.png"))); // NOI18N
         mniDangXuat.setText("Đăng xuất");
         mniDangXuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,16 +140,17 @@ public class HomeForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -211,6 +233,16 @@ public class HomeForm extends javax.swing.JFrame {
         mniQLTacGia.addActionListener(e -> cardLayout.show(mainPanel, "QL_TACGIA"));
         mniPhieuMuon.addActionListener(e -> cardLayout.show(mainPanel, "QL_PHIEUMUON"));
         mniNhapXuat.addActionListener(e -> cardLayout.show(mainPanel, "QL_NHAPXUAT"));
+    }
+
+    private void setupIMG() {
+        ResizeIcons.resizeCurrentIcon(mniQLDocGia);
+        ResizeIcons.resizeCurrentIcon(mniQLTacGia);
+        ResizeIcons.resizeCurrentIcon(mniQLSach);
+        ResizeIcons.resizeCurrentIcon(mniPhieuMuon);
+        ResizeIcons.resizeCurrentIcon(mniNhapXuat);
+        ResizeIcons.resizeCurrentIcon(mniDangXuat);
+
     }
 
 }
