@@ -18,6 +18,7 @@ import model.Sach;
 import dao.SachDAO;
 import model.TacGia;
 import dao.TacGiaDAO;
+import tienich.EventBus;
 import tienich.ResizeIcons;
 
 /**
@@ -36,9 +37,10 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     public QuanLySachPanel() {
         initComponents();
         loadData();
+        reloadTacGia();
         loadTacGia();
         setupIMG();
-        cboTenTacGia.setEnabled(false);
+
     }
 
     /**
@@ -367,7 +369,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                 lblAnhBia.setIcon(null);
             }
         }
-
+        khoaNhap();
     }//GEN-LAST:event_tblSachMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -429,7 +431,6 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         model = new DefaultTableModel(tieudecot, 0);
         tblSach.setModel(model);
 
-        model.setRowCount(0);
         list = sachDAO.getAll(); // Lấy toàn bộ sách từ DB
         for (Sach s : list) {
             model.addRow(new Object[]{
@@ -441,12 +442,6 @@ public class QuanLySachPanel extends javax.swing.JPanel {
             });
         }
         lblAnhBia.setIcon(null);
-
-        tblSach.setAutoCreateColumnsFromModel(true);
-        tblSach.createDefaultColumnsFromModel();
-        System.out.println("Cột trong model: " + model.getColumnCount());
-        System.out.println("Cột trong columnModel: " + tblSach.getColumnModel().getColumnCount());
-
     }
 
     private void loadTacGia() {
@@ -455,6 +450,27 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         for (TacGia tg : listTacGia) {
             cboTenTacGia.addItem(tg);
         }
+    }
+
+    private void reloadTacGia() {
+        EventBus.subscribe("AUTHOR_CHANGED", (event, data) -> {
+            String action = (String) data[0];  // "ADD" / "UPDATE" / "DELETE"
+
+            switch (action) {
+                case "ADD":
+                case "UPDATE":
+                    TacGia tg = (TacGia) data[1];
+                    loadTacGia();
+                    loadData();
+                    break;
+                case "DELETE":
+                    int maTacGia = (int) data[1];
+                    loadTacGia();
+                    loadData();
+                    break;
+            }
+        });
+
     }
 
     private void themSach() {
@@ -585,6 +601,10 @@ public class QuanLySachPanel extends javax.swing.JPanel {
         ResizeIcons.resizeCurrentIcon(btnXoa);
         ResizeIcons.resizeCurrentIcon(btnLamMoi);
         ResizeIcons.resizeCurrentIcon(btnTimKiem);
+    }
+
+    private void khoaNhap() {
+        cboTenTacGia.setEnabled(false);
     }
 
 }

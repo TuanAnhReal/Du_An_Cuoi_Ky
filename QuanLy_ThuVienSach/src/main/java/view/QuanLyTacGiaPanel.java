@@ -21,6 +21,7 @@ import model.DocGia;
 import dao.DocGiaDAO;
 import model.TacGia;
 import dao.TacGiaDAO;
+import tienich.EventBus;
 import tienich.ResizeIcons;
 
 /**
@@ -36,9 +37,6 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
 
     public QuanLyTacGiaPanel() {
         initComponents();
-        String[] tieudecot = {"Mã", "Họ tên", "Ngày sinh"};
-        model = new DefaultTableModel(tieudecot, 0);
-        tblTacGia.setModel(model);
         loadData();
         setupIMG();
     }
@@ -106,7 +104,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                                 .addGap(258, 258, 258))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -193,14 +191,14 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
             pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnButtonLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -298,8 +296,8 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-                suaTacGia();
-                loadData();
+        suaTacGia();
+        loadData();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -316,7 +314,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-                timKiem();
+        timKiem();
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void tblTacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGiaMouseClicked
@@ -366,7 +364,10 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void loadData() {
-        model.setRowCount(0);
+        String[] tieudecot = {"Mã", "Họ tên", "Ngày sinh"};
+        model = new DefaultTableModel(tieudecot, 0);
+        tblTacGia.setModel(model);
+
         List<TacGia> list = TacGiaDAO.getAll();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (TacGia tg : list) {
@@ -398,6 +399,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
                 loadData();
                 lamMoi();
+                EventBus.publish("AUTHOR_CHANGED", "ADD", tg);
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm thất bại");
             }
@@ -440,6 +442,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
             if (tacGiaDAO.updateTacGia(tg)) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                 loadData();
+                EventBus.publish("AUTHOR_CHANGED", "UPDATE", tg);
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
             }
@@ -465,6 +468,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Xóa thành công");
                 loadData();
                 lamMoi();
+                EventBus.publish("AUTHOR_CHANGED", "DELETE", maTacGia);
             } else {
                 JOptionPane.showMessageDialog(this, "Xóa thất bại");
             }
@@ -492,4 +496,5 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
         ResizeIcons.resizeCurrentIcon(btnLamMoi);
         ResizeIcons.resizeCurrentIcon(btnTimKiem);
     }
+
 }
