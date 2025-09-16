@@ -11,7 +11,7 @@ import model.*;
 public class ExportDAO {
 
     public static boolean exportDocGia(String folderPath) {
-        String sql = "SELECT * FROM DocGia";
+        String sql = "SELECT MaDocGia, HoTen, NgaySinh, DiaChi, SoDienThoai, Email FROM DocGia";
         String filePath = folderPath + "\\DocGia.xlsx";
         return exportToExcel(sql, filePath);
     }

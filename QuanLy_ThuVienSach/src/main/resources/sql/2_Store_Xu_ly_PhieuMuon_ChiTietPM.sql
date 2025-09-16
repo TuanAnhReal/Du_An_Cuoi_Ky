@@ -1,4 +1,4 @@
-
+use QuanLyThuVienSach;
 --Có 3 trường hợp: Thêm cả phiếu mượn và chi tiết,
 --				   Khi trùng bảng phiếu mượn sẽ chỉ thêm bảng chi tiết
 --				   Thêm phần tồn kho

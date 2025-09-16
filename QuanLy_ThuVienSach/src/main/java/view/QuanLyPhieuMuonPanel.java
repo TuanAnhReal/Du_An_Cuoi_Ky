@@ -17,6 +17,8 @@ import dao.PhieuMuonDAO;
 import dao.SachDAO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import model.Sach;
+import tienich.EventBus;
 import tienich.ResizeIcons;
 
 /**
@@ -33,10 +35,12 @@ public class QuanLyPhieuMuonPanel extends javax.swing.JPanel {
     public QuanLyPhieuMuonPanel() {
         initComponents();
         loadPhieuMuon();
+        reloadSach();
+        loadSach();
         loadCombo();
         setupIMG();
         cboLocTheoTrangThai.setSelectedIndex(0);
-        
+
     }
 
     /**
@@ -449,7 +453,7 @@ public class QuanLyPhieuMuonPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 // Hàm mặc định: load tất cả
-    private  void loadPhieuMuon() {
+    private void loadPhieuMuon() {
         loadPhieuMuon("Tất cả"); // gọi sang hàm có filter
     }
 
@@ -513,14 +517,9 @@ public class QuanLyPhieuMuonPanel extends javax.swing.JPanel {
     }
 
     private void loadCombo() {
-        cboTenSachMuon.removeAllItems();
         cboTinhTrang.removeAllItems();
         cboLocTheoTrangThai.removeAllItems();
         cboLocTheoMaPhieu.removeAllItems();
-        List<String> listTenSach = SachDAO.getTenSach();
-        for (String ten : listTenSach) {
-            cboTenSachMuon.addItem(ten);
-        }
 
         //set cho tình trạng sách
         cboTinhTrang.addItem("Đang mượn");
@@ -540,6 +539,14 @@ public class QuanLyPhieuMuonPanel extends javax.swing.JPanel {
             cboLocTheoMaPhieu.addItem(String.valueOf(ma));
         }
 
+    }
+
+    private void loadSach() {
+        cboTenSachMuon.removeAllItems();
+        List<String> listTenSach = SachDAO.getTenSach();
+        for (String ten : listTenSach) {
+            cboTenSachMuon.addItem(ten);
+        }
     }
 
     private void suaPhieu() {
@@ -683,10 +690,18 @@ public class QuanLyPhieuMuonPanel extends javax.swing.JPanel {
     }
 
     private void khoaNhap() {
-                // khóa mấy ô text field
+        // khóa mấy ô text field
         txtMaPhieuMuon.setEnabled(false);
         txtMaDocGia.setEnabled(false);
         txtNgayTraThucTe.setEnabled(false);
+    }
+
+    private void reloadSach() {
+        EventBus.subscribe("AUTHOR_CHANGED", (event, data) -> {
+            loadPhieuMuon();
+            loadSach();
+        });
+
     }
 
 }

@@ -3,6 +3,7 @@ package dao;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 import util.DBConnection;
@@ -11,24 +12,33 @@ import util.DBConnection;
 
 public class ImportDAO {
 
+    private static DataFormatter df = new DataFormatter();
+
     public static boolean importDocGia(String path) {
         try (Connection conn = DBConnection.getConnection()) {
             FileInputStream fis = new FileInputStream(new File(path));
             Workbook workbook = WorkbookFactory.create(fis);
             Sheet sheet = workbook.getSheetAt(0);
 
-            String sql = "INSERT INTO DocGia(HoTen, NgaySinh, DiaChi, SoDienThoai, Email) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO DocGia( HoTen, NgaySinh, DiaChi, SoDienThoai, Email) VALUES ( ?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             Iterator<Row> rowIterator = sheet.iterator();
             rowIterator.next(); // bỏ header
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                ps.setString(1, row.getCell(0).getStringCellValue());
-                ps.setDate(2, new java.sql.Date(row.getCell(1).getDateCellValue().getTime()));
-                ps.setString(3, row.getCell(2).getStringCellValue());
-                ps.setString(4, row.getCell(3).getStringCellValue());
-                ps.setString(5, row.getCell(4).getStringCellValue());
+            
+                String ten = df.formatCellValue(row.getCell(1)).trim();
+
+                String dateStr = df.formatCellValue(row.getCell(2)).trim();
+                java.util.Date parsed = new SimpleDateFormat("YYYY-MM-dd").parse(dateStr);
+                java.sql.Date nam = new java.sql.Date(parsed.getTime());
+
+                ps.setString(1, ten);
+                ps.setDate(2, nam);
+                ps.setString(3, row.getCell(3).getStringCellValue());
+                ps.setString(4, row.getCell(4).getStringCellValue());
+                ps.setString(5, row.getCell(5).getStringCellValue());
                 try {
                     ps.executeUpdate();
                 } catch (SQLException e) {

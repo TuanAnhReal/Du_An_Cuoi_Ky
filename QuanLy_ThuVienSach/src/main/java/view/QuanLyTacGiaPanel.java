@@ -391,15 +391,11 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
             }
             TacGia tg = new TacGia(tenTacGia, ngaySinh, anhChanDung);
 
-            System.out.println("File path: " + selectedFilePath);
-            System.out.println("Ảnh null? " + (anhChanDung == null));
-            System.out.println("Kích thước ảnh: " + (anhChanDung != null ? anhChanDung.length : 0));
-
             if (tacGiaDAO.insertTacGia(tg)) {
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
                 loadData();
                 lamMoi();
-                EventBus.publish("AUTHOR_CHANGED", "ADD", tg);
+                EventBus.publish("AUTHOR_CHANGED");
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm thất bại");
             }
@@ -442,7 +438,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
             if (tacGiaDAO.updateTacGia(tg)) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                 loadData();
-                EventBus.publish("AUTHOR_CHANGED", "UPDATE", tg);
+                EventBus.publish("AUTHOR_CHANGED");
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
             }
@@ -468,7 +464,7 @@ public class QuanLyTacGiaPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Xóa thành công");
                 loadData();
                 lamMoi();
-                EventBus.publish("AUTHOR_CHANGED", "DELETE", maTacGia);
+                EventBus.publish("AUTHOR_CHANGED");
             } else {
                 JOptionPane.showMessageDialog(this, "Xóa thất bại");
             }

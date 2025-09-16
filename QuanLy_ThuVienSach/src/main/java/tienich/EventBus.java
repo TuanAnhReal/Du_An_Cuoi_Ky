@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class EventBus {
+
     private static Map<String, List<BiConsumer<String, Object[]>>> listeners = new HashMap<>();
 
     public static void subscribe(String event, BiConsumer<String, Object[]> listener) {
@@ -29,4 +30,3 @@ public class EventBus {
         }
     }
 }
-

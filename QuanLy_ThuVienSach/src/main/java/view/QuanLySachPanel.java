@@ -454,23 +454,9 @@ public class QuanLySachPanel extends javax.swing.JPanel {
 
     private void reloadTacGia() {
         EventBus.subscribe("AUTHOR_CHANGED", (event, data) -> {
-            String action = (String) data[0];  // "ADD" / "UPDATE" / "DELETE"
-
-            switch (action) {
-                case "ADD":
-                case "UPDATE":
-                    TacGia tg = (TacGia) data[1];
-                    loadTacGia();
-                    loadData();
-                    break;
-                case "DELETE":
-                    int maTacGia = (int) data[1];
-                    loadTacGia();
-                    loadData();
-                    break;
-            }
+            loadTacGia(); // reload combo tác giả
+            loadData();   // reload table sách
         });
-
     }
 
     private void themSach() {
@@ -494,6 +480,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Thêm sách thành công");
                 loadData();
                 lamMoi();
+                EventBus.publish("AUTHOR_CHANGED");
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm sách thất bại");
             }
@@ -531,6 +518,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
             if (sachDAO.updateSach(s)) {
                 JOptionPane.showMessageDialog(this, "Cập nhật sách thành công");
                 loadData();
+                EventBus.publish("AUTHOR_CHANGED");
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
             }
@@ -558,6 +546,7 @@ public class QuanLySachPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Xóa thành công");
                 loadData();
                 lamMoi();
+                EventBus.publish("AUTHOR_CHANGED");
             } else {
                 JOptionPane.showMessageDialog(this, "Xóa thất bại");
             }
@@ -606,5 +595,4 @@ public class QuanLySachPanel extends javax.swing.JPanel {
     private void khoaNhap() {
         cboTenTacGia.setEnabled(false);
     }
-
 }
